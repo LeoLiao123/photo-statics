@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片投票系統</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">投票頁面</a>
+        </nav>
+        <div class="mode-toggle">
+            <button id="vote-mode-btn" class="active">投票模式</button>
+            <button id="browse-mode-btn">瀏覽模式</button>
+        </div>
+        <h1>照片投票</h1>
+        <p id="selection-count">Selected: 0 / 25</p>
+        <div id="photo-gallery">
+            <!-- Photos will be loaded here by JavaScript -->
+            <p>Loading photos...</p>
+        </div>
+        <button id="submit-vote" disabled>送出投票</button>
+        <p id="vote-status"></p>
+    </div>
+
+    <div id="lightbox-modal" class="lightbox-modal">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <a class="lightbox-prev">&#10094;</a>
+        <a class="lightbox-next">&#10095;</a>
+        <div id="lightbox-caption"></div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
