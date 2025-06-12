@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLightboxIndex = -1;
     let imagePreviewPopup = null; // Variable to hold the preview popup element
     let username = ''; // Variable to store the username
+    let lazyLoadObserver; // For lazy loading images
 
     function promptForUsername() {
         username = prompt("請輸入您的名稱：", "");
@@ -73,11 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
             item.dataset.filename = photo.filename;
 
             const img = document.createElement('img');
-            img.src = photo.path; 
+            // Lazy loading: store actual src in data-src
+            img.dataset.src = photo.path; 
             img.alt = photo.filename;
-            img.onerror = () => { 
-                item.innerHTML = `<p>Error loading ${photo.filename}</p>`;
-            };
+            img.classList.add('lazy-load'); // Add class for observer to find
+            // Original onerror removed, will be handled by IntersectionObserver callback
 
             const filenameOverlay = document.createElement('div');
             filenameOverlay.classList.add('filename-overlay');
@@ -102,6 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             photoGallery.appendChild(item);
         });
+
+        observeLazyLoadImages(); // Start observing newly added images
+
         if (currentMode === 'vote') {
             updateSelectionCount();
         }
@@ -250,6 +254,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Lazy Loading Intersection Observer
+    function initializeLazyLoadObserver() {
+        lazyLoadObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const originalSrc = img.dataset.src;
+
+                    img.onerror = () => {
+                        const photoItem = img.closest('.photo-item');
+                        if (photoItem) {
+                            photoItem.innerHTML = `<p>Error loading ${img.alt}</p>`;
+                        }
+                        // Optionally, remove the img or style it as broken
+                        // img.remove(); 
+                    };
+                    
+                    img.src = originalSrc;
+                    img.classList.remove('lazy-load');
+                    // Optional: add a 'loaded' class if you want to style loaded images, e.g., for transitions
+                    // img.classList.add('loaded'); 
+                    observer.unobserve(img);
+                }
+            });
+        }, { 
+            rootMargin: "0px 0px 200px 0px" // Start loading images 200px before they enter the viewport
+        });
+    }
+
+    function observeLazyLoadImages() {
+        if (!lazyLoadObserver) return; // Observer not initialized
+        const lazyImages = photoGallery.querySelectorAll('img.lazy-load');
+        lazyImages.forEach(img => {
+            lazyLoadObserver.observe(img);
+        });
+    }
 
     // Mode switching logic
     function setMode(mode) {
@@ -351,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    initializeLazyLoadObserver(); // Initialize the observer on page load
     promptForUsername(); // Prompt for username when the page loads
     fetchPhotos();
     setMode('vote'); // Initialize in vote mode
