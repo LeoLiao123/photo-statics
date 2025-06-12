@@ -5,9 +5,6 @@ import os
 from datetime import datetime
 from typing import List
 
-IMAGES_DIR_RELATIVE_TO_CRUD = os.path.join(os.path.dirname(__file__), "..", "images")
-
-
 def parse_filename(filename_no_ext: str):
     try:
         group_str, photo_str = filename_no_ext.split('-')
