@@ -97,7 +97,10 @@ def get_available_photos_from_disk():
 
     available_photos = []
     try:
-        for f_name in os.listdir(images_dir):
+        # Get list of files and sort them
+        file_list = sorted(os.listdir(images_dir))
+        
+        for f_name in file_list:
             if f_name.lower().endswith(".webp"): # Assuming PNG format
                 filename_no_ext = os.path.splitext(f_name)[0]
                 available_photos.append(
