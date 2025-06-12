@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rankDisplay.textContent = `排名: ${index + 1}`;
 
             const img = document.createElement('img');
-            const photoPath = `/images/${photo.filename}.jpg`;
+            const photoPath = `/images/${photo.filename}.webp`;
             img.src = photoPath; 
             img.alt = `Rank ${index + 1} - ${photo.filename}`;
 
