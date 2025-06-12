@@ -267,6 +267,68 @@ td img {
     min-width: 300px;
 }
 
+/* Admin Page Navigation Link */
+.admin-navigation {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.admin-nav-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+
+.admin-nav-link:hover {
+    background-color: #0056b3;
+}
+
+
+/* Styling for Group Ranking Table in admin.html */
+#group-ranking-table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse; /* Ensures borders are neat */
+}
+
+#group-ranking-table th,
+#group-ranking-table td {
+    border: 1px solid #ddd;
+    padding: 12px; /* Increased padding */
+    text-align: left;
+}
+
+#group-ranking-table th {
+    background-color: #007bff; /* Header background */
+    color: white; /* Header text color */
+    font-weight: bold;
+}
+
+#group-ranking-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Zebra striping for rows */
+}
+
+#group-ranking-table tr:hover {
+    background-color: #f1f1f1; /* Hover effect for rows */
+}
+
+#group-ranking-table .group-name-cell {
+    font-weight: bold;
+    color: #333;
+}
+
+#group-ranking-table .total-votes-cell {
+    font-weight: bold;
+    color: #28a745; /* Green color for vote counts */
+    text-align: right;
+}
+
+
 /* Image Preview Popup Styles */
 #image-preview-popup {
     position: absolute;

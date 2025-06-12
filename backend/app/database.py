@@ -1,7 +1,8 @@
 import sqlalchemy
-from sqlalchemy import create_engine, Column, Integer, String, MetaData
+from sqlalchemy import create_engine, Column, Integer, String, MetaData, DateTime, ForeignKey
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
+from datetime import datetime
 
 DATABASE_URL = "sqlite:///./photovote.db"
 
@@ -18,6 +19,15 @@ class PhotoVoteDB(Base):
     photo_id = Column(Integer, nullable=False)
     filename = Column(String, nullable=False, unique=True, index=True)
     votes = Column(Integer, nullable=False, default=0)
+
+# New table for user vote logs
+class UserVoteLogDB(Base):
+    __tablename__ = "user_vote_logs"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    username = Column(String, index=True, nullable=False)
+    photo_filename = Column(String, index=True, nullable=False) # No foreign key to PhotoVoteDB.filename to keep it simple
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
 def create_db_and_tables():
     Base.metadata.create_all(bind=engine)

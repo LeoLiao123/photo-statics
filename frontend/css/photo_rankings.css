@@ -1,0 +1,118 @@
+#photo-ranking-display {
+    display: flex;
+    flex-direction: column; /* Stack top-three and others vertically */
+    gap: 30px; /* Space between top-three and others section */
+    padding: 20px;
+    align-items: center; /* Center the containers */
+}
+
+#top-three-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping if screen is too small, though ideally they fit */
+    justify-content: center; /* Center items in the container */
+    gap: 20px; /* Gap between top 3 photos */
+    width: 100%; /* Take full width to center its content */
+}
+
+#other-photos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center items in the container */
+    gap: 15px; /* Gap between other photos */
+    width: 100%;
+}
+
+.photo-ranking-item {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer; /* Indicate it's interactive */
+}
+
+.photo-ranking-item img {
+    display: block;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.photo-ranking-item .rank {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.photo-ranking-item .votes {
+    font-size: 1em;
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 5px; /* Add some space before photographer name */
+}
+
+.photo-ranking-item .photographer-name {
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Top 3 ranked items */
+.photo-ranking-item.top-rank-item {
+    border: 3px solid #ffd700; /* Gold border for top items */
+    padding: 15px;
+}
+
+.photo-ranking-item.top-rank-item img {
+    width: 300px;  /* Larger size for top 3 */
+    height: 300px; /* Larger size for top 3 */
+}
+
+/* Other ranked items */
+.photo-ranking-item.other-rank-item {
+    border: 1px solid #ccc;
+}
+
+.photo-ranking-item.other-rank-item img {
+    width: 120px;  /* Smaller size for others */
+    height: 120px; /* Smaller size for others */
+}
+
+/* Enlarged Photo Preview Popup Styles */
+#enlarged-photo-preview-popup {
+    position: absolute; /* Changed from fixed to absolute for JS positioning */
+    z-index: 2000; /* Ensure it's above everything */
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none; /* So it doesn't interfere with mouseleave on the item */
+}
+
+#enlarged-photo-preview-popup img {
+    display: block;
+    max-width: 60vw; /* Slightly smaller max width */
+    max-height: 60vh; /* Slightly smaller max height */
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+#enlarged-photo-preview-popup .preview-details {
+    color: #fff;
+    text-align: center;
+}
+
+#enlarged-photo-preview-popup .preview-details p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}

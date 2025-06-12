@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用者投票詳情 - Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/photo_rankings.css"> <!-- Reusing some styles -->
+    <link rel="stylesheet" href="/css/user_votes_details.css"> 
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">投票頁面</a> | 
+            <a href="/admin.html">返回管理主頁</a> |
+            <a href="/photo_rankings.html">照片排行</a>
+        </nav>
+        <h1>使用者投票詳情</h1>
+
+        <div class="user-selection-area">
+            <label for="user-select">選擇使用者：</label>
+            <select id="user-select">
+                <option value="">-- 請選擇使用者 --</option>
+            </select>
+        </div>
+
+        <div id="user-photo-display-container">
+            <h2 id="selected-user-heading"></h2>
+            <div id="user-photo-display">
+                <!-- User's voted photos will be loaded here -->
+                <p>請先選擇一位使用者以查看其投票的照片。</p>
+            </div>
+        </div>
+    </div>
+    <script src="/js/user_votes_details.js"></script>
+</body>
+</html>

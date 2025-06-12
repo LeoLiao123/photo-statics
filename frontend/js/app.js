@@ -24,6 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let allPhotosData = []; // To store all fetched photo data
     let currentLightboxIndex = -1;
     let imagePreviewPopup = null; // Variable to hold the preview popup element
+    let username = ''; // Variable to store the username
+
+    function promptForUsername() {
+        username = prompt("請輸入您的名稱：", "");
+        if (!username || username.trim() === "") {
+            username = "匿名使用者"; // Default if no name is entered
+            alert("您將以「匿名使用者」的身份投票。");
+        }
+        // You could display the username somewhere on the page if desired
+        // For example: document.getElementById('username-display').textContent = `投票者: ${username}`;
+    }
 
     // Helper function to preload an image
     function preloadImage(url) {
@@ -293,6 +304,10 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please select at least one photo to vote.');
             return;
         }
+        if (!username || username.trim() === "") {
+            alert('無法獲取使用者名稱，請重新整理頁面再試。');
+            return;
+        }
 
         voteStatus.textContent = 'Submitting votes...';
         submitVoteButton.disabled = true;
@@ -303,7 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ selected_photos: Array.from(selectedPhotos) }),
+                body: JSON.stringify({ 
+                    username: username, // Add username to the request
+                    selected_photos: Array.from(selectedPhotos) 
+                }),
             });
 
             if (response.ok) {
@@ -333,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    promptForUsername(); // Prompt for username when the page loads
     fetchPhotos();
     setMode('vote'); // Initialize in vote mode
 });

@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, desc
 from . import models, database
 import os
+from datetime import datetime
+from typing import List
 
 IMAGES_DIR_RELATIVE_TO_CRUD = os.path.join(os.path.dirname(__file__), "..", "images")
 
@@ -37,6 +39,17 @@ def update_vote(db: Session, filename_no_ext: str):
     db.refresh(db_photo)
     return db_photo
 
+def record_user_vote(db: Session, username: str, photo_filename: str):
+    user_vote_log = database.UserVoteLogDB(
+        username=username,
+        photo_filename=photo_filename,
+        timestamp=datetime.utcnow()
+    )
+    db.add(user_vote_log)
+    db.commit()
+    db.refresh(user_vote_log)
+    return user_vote_log
+
 def get_photo_rankings(db: Session):
     return db.query(database.PhotoVoteDB).order_by(desc(database.PhotoVoteDB.votes)).all()
 
@@ -46,6 +59,31 @@ def get_group_rankings(db: Session):
         func.sum(database.PhotoVoteDB.votes).label("total_votes")
     ).group_by(database.PhotoVoteDB.group_id).order_by(desc("total_votes")).all()
     return [{"group_id": r.group_id, "total_votes": r.total_votes} for r in result]
+
+def get_voted_users(db: Session) -> List[models.VotedUser]:
+    users = db.query(database.UserVoteLogDB.username).distinct().order_by(database.UserVoteLogDB.username).all()
+    return [models.VotedUser(username=user[0]) for user in users]
+
+def get_user_vote_details(db: Session, username: str) -> List[models.UserVoteRecord]:
+    user_votes = db.query(database.UserVoteLogDB).filter(database.UserVoteLogDB.username == username).all()
+    
+    vote_details = []
+    for vote_log in user_votes:
+        # Fetch corresponding photo details from PhotoVoteDB to get group_id
+        photo_info = db.query(database.PhotoVoteDB.group_id).filter(database.PhotoVoteDB.filename == vote_log.photo_filename).first()
+        group_id = photo_info.group_id if photo_info else 0 # Default group_id if not found (should not happen if data is consistent)
+        
+        vote_details.append(
+            models.UserVoteRecord(
+                username=vote_log.username,
+                photo_filename=vote_log.photo_filename,
+                group_id=group_id,
+                photo_path=f"/images/{vote_log.photo_filename}.jpg", # Assuming .jpg extension
+                timestamp=vote_log.timestamp
+            )
+        )
+    return vote_details
+
 
 def get_available_photos_from_disk():
     # Path relative to the project root when running uvicorn from there

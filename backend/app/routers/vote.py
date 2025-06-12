@@ -12,7 +12,15 @@ MAX_VOTES_PER_SUBMISSION = 25
 def submit_vote(
     vote_request: models.VoteRequest, db: Session = Depends(database.get_db)
 ):
+    username = vote_request.username
     selected_photos = vote_request.selected_photos
+
+    if not username or not username.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username cannot be empty.",
+        )
+
     if not selected_photos:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -37,5 +45,6 @@ def submit_vote(
                 detail=f"Photo '{photo_filename_no_ext}' not found or invalid.",
             )
         crud.update_vote(db, photo_filename_no_ext)
+        crud.record_user_vote(db, username, photo_filename_no_ext) # Record user's specific vote
     
     return {"message": "點擊連結可以查看獎勵"}

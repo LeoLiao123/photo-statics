@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const photoRankingBody = document.getElementById('photo-ranking-body');
+    // photoRankingBody removed
     const groupRankingBody = document.getElementById('group-ranking-body');
     const POLLING_INTERVAL = 5000; // 5 seconds
 
@@ -17,44 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 您可以根據需要擴展此對應
     };
 
-    async function fetchPhotoRankings() {
-        try {
-            const response = await fetch('/api/photos/ranking');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const rankings = await response.json();
-            renderPhotoRankings(rankings);
-        } catch (error) {
-            console.error('Failed to fetch photo rankings:', error);
-            if (photoRankingBody) photoRankingBody.innerHTML = `<tr><td colspan="4">Error loading photo rankings.</td></tr>`;
-        }
-    }
-
-    function renderPhotoRankings(rankings) {
-        if (!photoRankingBody) return;
-        photoRankingBody.innerHTML = ''; // Clear existing rows
-        if (rankings.length === 0) {
-            photoRankingBody.innerHTML = `<tr><td colspan="4">No photo votes recorded yet.</td></tr>`;
-            return;
-        }
-        rankings.forEach((photo, index) => {
-            const row = photoRankingBody.insertRow();
-            row.insertCell().textContent = index + 1; // Rank
-            
-            const imgCell = row.insertCell();
-            const img = document.createElement('img');
-            // Assuming image path can be constructed or is available
-            img.src = `/images/${photo.filename}.jpg`; 
-            img.alt = photo.filename;
-            img.style.width = '50px';
-            img.style.height = '50px';
-            img.style.objectFit = 'cover';
-            imgCell.appendChild(img);
-            imgCell.append(` ${photo.filename}`);
-
-            row.insertCell().textContent = groupNameMapping[photo.group_id] || photo.group_id; // 使用對應名稱
-            row.insertCell().textContent = photo.votes;
-        });
-    }
+    // fetchPhotoRankings function removed
+    // renderPhotoRankings function removed
 
     async function fetchGroupRankings() {
         try {
@@ -78,13 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
         rankings.forEach((group, index) => {
             const row = groupRankingBody.insertRow();
             row.insertCell().textContent = index + 1; // Rank
-            row.insertCell().textContent = groupNameMapping[group.group_id] || group.group_id; // 使用對應名稱
-            row.insertCell().textContent = group.total_votes;
+            const groupNameCell = row.insertCell();
+            groupNameCell.textContent = groupNameMapping[group.group_id] || `組別 ${group.group_id}`; // 使用對應名稱或預設
+            groupNameCell.classList.add('group-name-cell');
+            
+            const totalVotesCell = row.insertCell();
+            totalVotesCell.textContent = group.total_votes;
+            totalVotesCell.classList.add('total-votes-cell');
         });
     }
 
     function pollData() {
-        fetchPhotoRankings();
+        // fetchPhotoRankings call removed
         fetchGroupRankings();
     }
 
