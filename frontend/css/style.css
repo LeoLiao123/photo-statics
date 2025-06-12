@@ -35,6 +35,30 @@ nav {
     border-color: #007bff;
 }
 
+.mode-toggle-right {
+    position: fixed;
+    top: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 5px; /* Space between buttons */
+    z-index: 100; /* Ensure it's above other content if necessary */
+}
+
+.mode-toggle-right button {
+    padding: 8px 15px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.mode-toggle-right button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
 .container {
     max-width: 1200px;
     margin: auto;
@@ -70,6 +94,7 @@ nav {
 .photo-item.selected {
     border-color: #007bff;
     background-color: #e6f2ff;
+    border-width: 4px; /* 加粗框線 */
 }
 
 body.browse-mode .photo-item {

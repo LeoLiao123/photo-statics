@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mode toggle buttons
     const voteModeBtn = document.getElementById('vote-mode-btn');
     const browseModeBtn = document.getElementById('browse-mode-btn');
+    const voteModeBtnRight = document.getElementById('vote-mode-btn-right');
+    const browseModeBtnRight = document.getElementById('browse-mode-btn-right');
 
     // Lightbox elements
     const lightboxModal = document.getElementById('lightbox-modal');
@@ -179,6 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('browse-mode');
             voteModeBtn.classList.add('active');
             browseModeBtn.classList.remove('active');
+            voteModeBtnRight.classList.add('active');
+            browseModeBtnRight.classList.remove('active');
             
             selectionCountDisplay.style.display = 'block';
             submitVoteButton.style.display = 'block';
@@ -197,6 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('browse-mode');
             browseModeBtn.classList.add('active');
             voteModeBtn.classList.remove('active');
+            browseModeBtnRight.classList.add('active');
+            voteModeBtnRight.classList.remove('active');
 
             selectionCountDisplay.style.display = 'none';
             submitVoteButton.style.display = 'none';
@@ -211,6 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     voteModeBtn.addEventListener('click', () => setMode('vote'));
     browseModeBtn.addEventListener('click', () => setMode('browse'));
+    voteModeBtnRight.addEventListener('click', () => setMode('vote'));
+    browseModeBtnRight.addEventListener('click', () => setMode('browse'));
 
 
     submitVoteButton.addEventListener('click', async () => {
