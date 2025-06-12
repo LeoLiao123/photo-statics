@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentMode = 'vote'; // 'vote' or 'browse'
     let allPhotosData = []; // To store all fetched photo data
     let currentLightboxIndex = -1;
+    let imagePreviewPopup = null; // Variable to hold the preview popup element
 
     // Helper function to preload an image
     function preloadImage(url) {
@@ -75,6 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
             item.appendChild(filenameOverlay);
 
             item.addEventListener('click', () => handlePhotoClick(item, photo, index));
+
+            // Add mouseenter and mouseleave listeners for image preview
+            item.addEventListener('mouseenter', (event) => {
+                if (currentMode === 'vote') {
+                    showImagePreview(photo.path, event);
+                }
+            });
+            item.addEventListener('mouseleave', () => {
+                if (currentMode === 'vote') {
+                    hideImagePreview();
+                }
+            });
+
             photoGallery.appendChild(item);
         });
         if (currentMode === 'vote') {
@@ -109,6 +123,58 @@ document.addEventListener('DOMContentLoaded', () => {
         selectionCountDisplay.textContent = `Selected: ${selectedPhotos.size} / ${MAX_SELECTIONS}`;
         submitVoteButton.disabled = selectedPhotos.size === 0;
     }
+
+    // Image Preview Functions
+    function showImagePreview(photoPath, event) {
+        hideImagePreview(); // Remove any existing preview
+
+        imagePreviewPopup = document.createElement('div');
+        imagePreviewPopup.id = 'image-preview-popup';
+        
+        const img = document.createElement('img');
+        img.src = photoPath;
+        img.alt = 'Image Preview';
+        imagePreviewPopup.appendChild(img);
+        
+        document.body.appendChild(imagePreviewPopup);
+
+        // Position the popup near the mouse cursor
+        // Adjustments to keep it within viewport
+        const popupWidth = imagePreviewPopup.offsetWidth;
+        const popupHeight = imagePreviewPopup.offsetHeight;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const scrollX = window.scrollX;
+        const scrollY = window.scrollY;
+
+        let x = event.pageX + 15; // 15px offset from cursor
+        let y = event.pageY + 15;
+
+        if (x + popupWidth > viewportWidth + scrollX) {
+            x = event.pageX - popupWidth - 15; // Show on the left if not enough space on right
+        }
+        if (x < scrollX) { // Ensure it doesn't go off the left edge
+            x = scrollX + 5;
+        }
+
+        if (y + popupHeight > viewportHeight + scrollY) {
+            y = event.pageY - popupHeight - 15; // Show above if not enough space below
+        }
+        if (y < scrollY) { // Ensure it doesn't go off the top edge
+            y = scrollY + 5;
+        }
+
+        imagePreviewPopup.style.left = `${x}px`;
+        imagePreviewPopup.style.top = `${y}px`;
+    }
+
+    function hideImagePreview() {
+        if (imagePreviewPopup) {
+            imagePreviewPopup.remove();
+            imagePreviewPopup = null;
+        }
+    }
+
 
     // Lightbox functions
     function openLightbox(index) {
@@ -176,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mode switching logic
     function setMode(mode) {
+        hideImagePreview(); // Hide preview when mode changes
         currentMode = mode;
         if (mode === 'vote') {
             document.body.classList.remove('browse-mode');
@@ -241,12 +308,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 const result = await response.json();
-                voteStatus.textContent = `Success: ${result.message}`;
+                voteStatus.innerHTML = `投票成功! ${result.message} <a href="https://youtube.com/shorts/CUeVEBtWJ5Q?feature=share" target="_blank">來自深淵的餽贈</a>`;
                 selectedPhotos.clear();
                 document.querySelectorAll('.photo-item.selected').forEach(el => el.classList.remove('selected'));
                 updateSelectionCount();
                  // Optionally redirect or clear selection after a delay
-                setTimeout(() => { voteStatus.textContent = ''; }, 3000);
+                setTimeout(() => { 
+                    voteStatus.textContent = ''; 
+                    voteStatus.innerHTML = ''; // Clear innerHTML as well
+                }, 10000); // Increased timeout to 10 seconds
             } else {
                 const errorResult = await response.json();
                 throw new Error(errorResult.detail || `HTTP error! status: ${response.status}`);
@@ -257,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             // Re-enable button only if there was an error and user might want to retry
             // If successful, they should probably re-select or be navigated away
-            if (!voteStatus.textContent.startsWith('Success')) {
+            if (!voteStatus.textContent.startsWith('投票成功')) {
                  submitVoteButton.disabled = selectedPhotos.size === 0;
             }
         }

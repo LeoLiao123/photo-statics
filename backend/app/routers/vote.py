@@ -38,4 +38,4 @@ def submit_vote(
             )
         crud.update_vote(db, photo_filename_no_ext)
     
-    return {"message": "Votes submitted successfully"}
+    return {"message": "點擊連結可以查看獎勵"}

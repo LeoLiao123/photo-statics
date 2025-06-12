@@ -266,3 +266,24 @@ td img {
     flex: 1;
     min-width: 300px;
 }
+
+/* Image Preview Popup Styles */
+#image-preview-popup {
+    position: absolute;
+    z-index: 1001; /* Ensure it's above other elements like lightbox navigation */
+    border: 2px solid #007bff;
+    background-color: white;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    pointer-events: none; /* Allows mouse events to pass through to elements below */
+    border-radius: 4px;
+}
+
+#image-preview-popup img {
+    display: block;
+    max-width: 500px;
+    max-height: 500px;
+    width: auto;
+    height: auto;
+    border-radius: 2px;
+}
