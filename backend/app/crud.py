@@ -75,7 +75,7 @@ def get_user_vote_details(db: Session, username: str) -> List[models.UserVoteRec
                 username=vote_log.username,
                 photo_filename=vote_log.photo_filename,
                 group_id=group_id,
-                photo_path=f"/images/{vote_log.photo_filename}.jpg", # Assuming .jpg extension
+                photo_path=f"/images/{vote_log.photo_filename}.webp", # Assuming .webp extension
                 timestamp=vote_log.timestamp
             )
         )
@@ -98,7 +98,7 @@ def get_available_photos_from_disk():
     available_photos = []
     try:
         for f_name in os.listdir(images_dir):
-            if f_name.lower().endswith(".jpg"): # Assuming PNG format
+            if f_name.lower().endswith(".webp"): # Assuming PNG format
                 filename_no_ext = os.path.splitext(f_name)[0]
                 available_photos.append(
                     models.AvailablePhoto(filename=filename_no_ext, path=f"/images/{f_name}")
