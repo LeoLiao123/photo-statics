@@ -12,6 +12,12 @@ MAX_VOTES_PER_SUBMISSION = 25
 def submit_vote(
     vote_request: models.VoteRequest, db: Session = Depends(database.get_db)
 ):
+    # --- 投票已關閉 ---
+    raise HTTPException(
+        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        detail="投票已暫時關閉，請稍後再試。",
+    )
+    # --- 原始程式碼開始 ---
     username = vote_request.username
     selected_photos = vote_request.selected_photos
 

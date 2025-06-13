@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let username = ''; // Variable to store the username
     let lazyLoadObserver; // For lazy loading images
 
+    // --- 投票已關閉：修改按鈕文字和狀態，以及提示訊息 ---
+    submitVoteButton.textContent = '投票已關閉';
+    submitVoteButton.disabled = true;
+    selectionCountDisplay.textContent = '投票已暫時關閉';
+    // --- 修改結束 ---
+
     function promptForUsername() {
         username = prompt("請輸入您的名稱：", "");
         if (!username || username.trim() === "") {
@@ -63,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (photos.length === 0) {
             photoGallery.innerHTML = '<p>No photos available for voting at the moment.</p>';
             if (currentMode === 'vote') {
-                selectionCountDisplay.textContent = `Selected: 0 / ${MAX_SELECTIONS}`;
-                submitVoteButton.disabled = true;
+                // selectionCountDisplay.textContent = `Selected: 0 / ${MAX_SELECTIONS}`; // 由上方修改取代
+                // submitVoteButton.disabled = true; // 由上方修改取代
             }
             return;
         }
@@ -120,6 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleSelection(item, filename) {
+        // --- 投票已關閉：阻止選擇 ---
+        if (currentMode === 'vote') {
+            alert("投票已暫時關閉，無法選擇照片。");
+            return;
+        }
+        // --- 修改結束 ---
+
         if (selectedPhotos.has(filename)) {
             selectedPhotos.delete(filename);
             item.classList.remove('selected');
@@ -135,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateSelectionCount() {
-        selectionCountDisplay.textContent = `Selected: ${selectedPhotos.size} / ${MAX_SELECTIONS}`;
-        submitVoteButton.disabled = selectedPhotos.size === 0;
+        // selectionCountDisplay.textContent = `Selected: ${selectedPhotos.size} / ${MAX_SELECTIONS}`; // 由上方修改取代
+        // submitVoteButton.disabled = selectedPhotos.size === 0; // 由上方修改取代
     }
 
     // Image Preview Functions
@@ -340,6 +353,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     submitVoteButton.addEventListener('click', async () => {
+        // --- 投票已關閉：如果按鈕仍然可以點擊，早期返回 ---
+        // 此檢查為額外防護，理論上按鈕應已被禁用
+        if (submitVoteButton.disabled || submitVoteButton.textContent === '投票已關閉') {
+            alert('投票已暫時關閉。');
+            return;
+        }
+        // --- 修改結束 ---
+
         if (selectedPhotos.size === 0) {
             alert('Please select at least one photo to vote.');
             return;
