@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let lazyLoadObserver; // For lazy loading images
 
     // --- 投票已關閉：修改按鈕文字和狀態，以及提示訊息 ---
-    submitVoteButton.textContent = '投票已關閉';
+    submitVoteButton.textContent = '還想投票? 啊我不要啊 啊我不要啊 啊我不要啊 啊我不要啊。';
     submitVoteButton.disabled = true;
-    selectionCountDisplay.textContent = '投票已暫時關閉';
+    selectionCountDisplay.textContent = '還想投票? 啊我不要啊 啊我不要啊 啊我不要啊 啊我不要啊。';
     // --- 修改結束 ---
 
     function promptForUsername() {
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleSelection(item, filename) {
         // --- 投票已關閉：阻止選擇 ---
         if (currentMode === 'vote') {
-            alert("投票已暫時關閉，無法選擇照片。");
+            alert("還想投票? 啊我不要啊 啊我不要啊 啊我不要啊 啊我不要啊。");
             return;
         }
         // --- 修改結束 ---
@@ -355,8 +355,8 @@ document.addEventListener('DOMContentLoaded', () => {
     submitVoteButton.addEventListener('click', async () => {
         // --- 投票已關閉：如果按鈕仍然可以點擊，早期返回 ---
         // 此檢查為額外防護，理論上按鈕應已被禁用
-        if (submitVoteButton.disabled || submitVoteButton.textContent === '投票已關閉') {
-            alert('投票已暫時關閉。');
+        if (submitVoteButton.disabled || submitVoteButton.textContent === '還想投票? 啊我不要啊 啊我不要啊 啊我不要啊 啊我不要啊。') {
+            alert('還想投票? 啊我不要啊 啊我不要啊 啊我不要啊 啊我不要啊。');
             return;
         }
         // --- 修改結束 ---
