@@ -12,12 +12,6 @@ MAX_VOTES_PER_SUBMISSION = 25
 def submit_vote(
     vote_request: models.VoteRequest, db: Session = Depends(database.get_db)
 ):
-    # --- 投票已關閉 ---
-    raise HTTPException(
-        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-        detail="還想投票? 啊我不要啊 啊我不要啊 啊我不要啊 啊我不要啊。",
-    )
-    # --- 原始程式碼開始 ---
     username = vote_request.username
     selected_photos = vote_request.selected_photos
 
@@ -52,5 +46,5 @@ def submit_vote(
             )
         crud.update_vote(db, photo_filename_no_ext)
         crud.record_user_vote(db, username, photo_filename_no_ext) # Record user's specific vote
-    
-    return {"message": "點擊連結可以查看獎勵"}
+
+    return {"message": "點擊連結可以查看獎勵 <a href='https://youtube.com/shorts/CUeVEBtWJ5Q?feature=share' target='_blank'>來自深淵的餽贈</a>"}
