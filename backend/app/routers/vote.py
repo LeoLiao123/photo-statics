@@ -15,7 +15,7 @@ def submit_vote(
     # --- 投票已關閉 ---
     raise HTTPException(
         status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-        detail="投票已暫時關閉，請稍後再試。",
+        detail="還想投票? 啊我不要啊 啊我不要啊 啊我不要啊 啊我不要啊。",
     )
     # --- 原始程式碼開始 ---
     username = vote_request.username
