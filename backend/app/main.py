@@ -44,9 +44,17 @@ if not os.path.exists(images_static_path):
 app.mount("/images", StaticFiles(directory="backend/images"), name="images_static")
 
 # Serve static files for frontend (HTML, CSS, JS)
-# The path "frontend" is relative to PROJECT_ROOT
-frontend_static_path = os.path.join(PROJECT_ROOT, "frontend")
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend_static")
+# For production, serve from Vite's build output in frontend/dist
+# During development, Vite's dev server will handle the frontend.
+frontend_dist_path = os.path.join(PROJECT_ROOT, "frontend", "dist")
+
+# Only mount if the dist directory exists (for production)
+if os.path.exists(frontend_dist_path):
+    app.mount("/", StaticFiles(directory=frontend_dist_path, html=True), name="frontend_dist_static")
+else:
+    print(f"Frontend 'dist' directory not found at '{frontend_dist_path}'. "
+          f"Ensure you have run 'npm run build' in the 'frontend' directory for production, "
+          f"or run Vite dev server ('npm run dev') for development.")
 
 
 @app.get("/api/health")

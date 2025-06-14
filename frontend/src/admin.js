@@ -1,3 +1,6 @@
+// Import global styles used by admin.html
+import './css/style.css';
+
 document.addEventListener('DOMContentLoaded', () => {
     // photoRankingBody removed
     const groupRankingBody = document.getElementById('group-ranking-body');

@@ -1,3 +1,25 @@
+import { createApp } from 'vue';
+
+// Import global styles used by index.html
+import './css/style.css';
+
+// Simple Vue app for demonstration
+const VueApp = {
+  data() {
+    return {
+      message: 'Vue is integrated!'
+    };
+  },
+  template: '<p>{{ message }}</p>'
+};
+
+// Mount Vue app to the placeholder div in index.html
+// Ensure the placeholder div exists in your index.html: <div id="vue-app-placeholder"></div>
+if (document.getElementById('vue-app-placeholder')) {
+  createApp(VueApp).mount('#vue-app-placeholder');
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const photoGallery = document.getElementById('photo-gallery');
     const submitVoteButton = document.getElementById('submit-vote');

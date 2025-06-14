@@ -1,5 +1,10 @@
+# Logs
+*.log
+
+# Python
 *.db
-# ignore __pycache__ directories
-__pycache__/
-# ignore Python bytecode files
 *.pyc
+__pycache__/
+
+# Node
+node_modules/

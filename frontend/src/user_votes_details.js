@@ -1,3 +1,8 @@
+// Import styles used by user_votes_details.html
+import './css/style.css';
+import './css/photo_rankings.css'; // Reusing some styles
+import './css/user_votes_details.css';
+
 document.addEventListener('DOMContentLoaded', () => {
     const userSelect = document.getElementById('user-select');
     const userPhotoDisplay = document.getElementById('user-photo-display');
