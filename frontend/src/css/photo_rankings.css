@@ -8,10 +8,10 @@
 
 #top-three-container {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping if screen is too small, though ideally they fit */
-    justify-content: center; /* Center items in the container */
+    flex-wrap: wrap; /* Allow wrapping if screen is too small */
+    justify-content: center; 
     gap: 20px; /* Gap between top 3 photos */
-    width: 100%; /* Take full width to center its content */
+    width: 100%; 
 }
 
 #other-photos-container {
@@ -32,7 +32,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer; /* Indicate it's interactive */
+    cursor: pointer; 
 }
 
 .photo-ranking-item img {
@@ -53,7 +53,7 @@
     font-size: 1em;
     color: #007bff;
     font-weight: bold;
-    margin-bottom: 5px; /* Add some space before photographer name */
+    margin-bottom: 5px; 
 }
 
 .photo-ranking-item .photographer-name {
@@ -68,8 +68,8 @@
 }
 
 .photo-ranking-item.top-rank-item img {
-    width: 300px;  /* Larger size for top 3 */
-    height: 300px; /* Larger size for top 3 */
+    width: 300px;  
+    height: 300px; 
 }
 
 /* Other ranked items */
@@ -78,14 +78,14 @@
 }
 
 .photo-ranking-item.other-rank-item img {
-    width: 120px;  /* Smaller size for others */
-    height: 120px; /* Smaller size for others */
+    width: 120px;  
+    height: 120px; 
 }
 
 /* Enlarged Photo Preview Popup Styles */
 #enlarged-photo-preview-popup {
-    position: absolute; /* Changed from fixed to absolute for JS positioning */
-    z-index: 2000; /* Ensure it's above everything */
+    position: absolute; 
+    z-index: 2000; 
     background-color: rgba(0, 0, 0, 0.85);
     padding: 20px;
     border-radius: 10px;
@@ -93,13 +93,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    pointer-events: none; /* So it doesn't interfere with mouseleave on the item */
+    pointer-events: none; 
 }
 
 #enlarged-photo-preview-popup img {
     display: block;
-    max-width: 60vw; /* Slightly smaller max width */
-    max-height: 60vh; /* Slightly smaller max height */
+    max-width: 60vw; 
+    max-height: 60vh; 
     width: auto;
     height: auto;
     object-fit: contain;

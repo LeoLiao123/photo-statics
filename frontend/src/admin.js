@@ -2,7 +2,6 @@
 import './css/style.css';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // photoRankingBody removed
     const groupRankingBody = document.getElementById('group-ranking-body');
     const POLLING_INTERVAL = 5000; // 5 seconds
 
@@ -17,11 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         8: '八',
         9: '九',
         10: '十'
-        // 您可以根據需要擴展此對應
+        // You can expand this mapping as needed
     };
-
-    // fetchPhotoRankings function removed
-    // renderPhotoRankings function removed
 
     async function fetchGroupRankings() {
         try {
@@ -37,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderGroupRankings(rankings) {
         if (!groupRankingBody) return;
-        groupRankingBody.innerHTML = ''; // Clear existing rows
+        groupRankingBody.innerHTML = ''; 
          if (rankings.length === 0) {
             groupRankingBody.innerHTML = `<tr><td colspan="3">No group votes recorded yet.</td></tr>`;
             return;
@@ -46,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = groupRankingBody.insertRow();
             row.insertCell().textContent = index + 1; // Rank
             const groupNameCell = row.insertCell();
-            groupNameCell.textContent = groupNameMapping[group.group_id] || `組別 ${group.group_id}`; // 使用對應名稱或預設
+            groupNameCell.textContent = groupNameMapping[group.group_id] || `Group ${group.group_id}`; // Use mapped name or default
             groupNameCell.classList.add('group-name-cell');
             
             const totalVotesCell = row.insertCell();
@@ -56,13 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function pollData() {
-        // fetchPhotoRankings call removed
         fetchGroupRankings();
     }
 
-    // Initial fetch
-    pollData();
-    // Set up polling
-    setInterval(pollData, POLLING_INTERVAL);
+    pollData(); // Initial fetch
+    setInterval(pollData, POLLING_INTERVAL); // Set up polling
 });
-// 1-阿財 2. 鼠鼠 3. Ting

@@ -14,7 +14,6 @@ const VueApp = {
 };
 
 // Mount Vue app to the placeholder div in index.html
-// Ensure the placeholder div exists in your index.html: <div id="vue-app-placeholder"></div>
 if (document.getElementById('vue-app-placeholder')) {
   createApp(VueApp).mount('#vue-app-placeholder');
 }
@@ -43,27 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const MAX_SELECTIONS = 25;
     let selectedPhotos = new Set();
     let currentMode = 'vote'; // 'vote' or 'browse'
-    let allPhotosData = []; // To store all fetched photo data
+    let allPhotosData = []; 
     let currentLightboxIndex = -1;
-    let imagePreviewPopup = null; // Variable to hold the preview popup element
-    let username = ''; // Variable to store the username
-    let lazyLoadObserver; // For lazy loading images
+    let imagePreviewPopup = null; 
+    let username = ''; 
+    let lazyLoadObserver; 
 
-    // 恢復正常的按鈕狀態
-    submitVoteButton.textContent = '送出投票';
+    submitVoteButton.textContent = 'Submit Vote'; // Restore normal button state
     submitVoteButton.disabled = true;
 
     function promptForUsername() {
-        username = prompt("請輸入您的名稱：", "");
+        username = prompt("Please enter your name:", "");
         if (!username || username.trim() === "") {
-            username = "匿名使用者"; // Default if no name is entered
-            alert("您將以「匿名使用者」的身份投票。");
+            username = "Anonymous User"; // Default if no name is entered
+            alert("You will vote as 'Anonymous User'.");
         }
-        // You could display the username somewhere on the page if desired
-        // For example: document.getElementById('username-display').textContent = `投票者: ${username}`;
+        // For example: document.getElementById('username-display').textContent = `Voter: ${username}`;
     }
 
-    // Helper function to preload an image
     function preloadImage(url) {
         const img = new Image();
         img.src = url;
@@ -76,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const photos = await response.json();
-            allPhotosData = photos; // Store photos for lightbox
+            allPhotosData = photos; 
             renderPhotos(photos);
         } catch (error) {
             console.error('Failed to fetch photos:', error);
@@ -85,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderPhotos(photos) {
-        photoGallery.innerHTML = ''; // Clear existing photos
+        photoGallery.innerHTML = ''; 
         if (photos.length === 0) {
             photoGallery.innerHTML = '<p>No photos available for voting at the moment.</p>';
             if (currentMode === 'vote') {
@@ -100,11 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
             item.dataset.filename = photo.filename;
 
             const img = document.createElement('img');
-            // Lazy loading: store actual src in data-src
-            img.dataset.src = photo.path; 
+            img.dataset.src = photo.path; // Lazy loading: store actual src in data-src
             img.alt = photo.filename;
-            img.classList.add('lazy-load'); // Add class for observer to find
-            // Original onerror removed, will be handled by IntersectionObserver callback
+            img.classList.add('lazy-load'); 
 
             const filenameOverlay = document.createElement('div');
             filenameOverlay.classList.add('filename-overlay');
@@ -115,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             item.addEventListener('click', () => handlePhotoClick(item, photo, index));
 
-            // Add mouseenter and mouseleave listeners for image preview
             item.addEventListener('mouseenter', (event) => {
                 if (currentMode === 'vote') {
                     showImagePreview(photo.path, event);
@@ -130,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             photoGallery.appendChild(item);
         });
 
-        observeLazyLoadImages(); // Start observing newly added images
+        observeLazyLoadImages(); 
 
         if (currentMode === 'vote') {
             updateSelectionCount();
@@ -165,9 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         submitVoteButton.disabled = selectedPhotos.size === 0;
     }
 
-    // Image Preview Functions
     function showImagePreview(photoPath, event) {
-        hideImagePreview(); // Remove any existing preview
+        hideImagePreview(); 
 
         imagePreviewPopup = document.createElement('div');
         imagePreviewPopup.id = 'image-preview-popup';
@@ -188,20 +180,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollX = window.scrollX;
         const scrollY = window.scrollY;
 
-        let x = event.pageX + 15; // 15px offset from cursor
+        let x = event.pageX + 15; 
         let y = event.pageY + 15;
 
         if (x + popupWidth > viewportWidth + scrollX) {
-            x = event.pageX - popupWidth - 15; // Show on the left if not enough space on right
+            x = event.pageX - popupWidth - 15; 
         }
-        if (x < scrollX) { // Ensure it doesn't go off the left edge
+        if (x < scrollX) { 
             x = scrollX + 5;
         }
 
         if (y + popupHeight > viewportHeight + scrollY) {
-            y = event.pageY - popupHeight - 15; // Show above if not enough space below
+            y = event.pageY - popupHeight - 15; 
         }
-        if (y < scrollY) { // Ensure it doesn't go off the top edge
+        if (y < scrollY) { 
             y = scrollY + 5;
         }
 
@@ -217,7 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Lightbox functions
     function openLightbox(index) {
         if (index < 0 || index >= allPhotosData.length) {
             console.error("Invalid lightbox index:", index);
@@ -257,17 +248,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Event listeners for lightbox
     lightboxClose.addEventListener('click', closeLightbox);
     lightboxPrev.addEventListener('click', showPrevPhoto);
     lightboxNext.addEventListener('click', showNextPhoto);
-    // Optional: Close lightbox when clicking outside the image
     lightboxModal.addEventListener('click', (event) => {
         if (event.target === lightboxModal) { // Clicked on the background
             closeLightbox();
         }
     });
-     // Keyboard navigation for lightbox
     document.addEventListener('keydown', (event) => {
         if (lightboxModal.style.display === 'block') {
             if (event.key === 'Escape') {
@@ -280,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Lazy Loading Intersection Observer
     function initializeLazyLoadObserver() {
         lazyLoadObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -299,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     img.src = originalSrc;
                     img.classList.remove('lazy-load');
-                    // Optional: add a 'loaded' class if you want to style loaded images, e.g., for transitions
+                    // Optional: add a 'loaded' class if you want to style loaded images
                     // img.classList.add('loaded'); 
                     observer.unobserve(img);
                 }
@@ -310,16 +297,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function observeLazyLoadImages() {
-        if (!lazyLoadObserver) return; // Observer not initialized
+        if (!lazyLoadObserver) return; 
         const lazyImages = photoGallery.querySelectorAll('img.lazy-load');
         lazyImages.forEach(img => {
             lazyLoadObserver.observe(img);
         });
     }
 
-    // Mode switching logic
     function setMode(mode) {
-        hideImagePreview(); // Hide preview when mode changes
+        hideImagePreview(); 
         currentMode = mode;
         if (mode === 'vote') {
             document.body.classList.remove('browse-mode');
@@ -330,9 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             selectionCountDisplay.style.display = 'block';
             submitVoteButton.style.display = 'block';
-            updateSelectionCount(); // Restore selection count and button state
+            updateSelectionCount(); 
 
-            // Re-apply 'selected' class to items based on selectedPhotos
             document.querySelectorAll('.photo-item').forEach(item => {
                 if (selectedPhotos.has(item.dataset.filename)) {
                     item.classList.add('selected');
@@ -351,9 +336,8 @@ document.addEventListener('DOMContentLoaded', () => {
             selectionCountDisplay.style.display = 'none';
             submitVoteButton.style.display = 'none';
             
-            // Clear visual selection when switching to browse mode
             document.querySelectorAll('.photo-item.selected').forEach(el => el.classList.remove('selected'));
-            // Note: selectedPhotos set is not cleared here, so selections are remembered if user switches back.
+            // Note: selectedPhotos set is not cleared here, selections are remembered if user switches back.
             // If you want to clear selections on mode switch, uncomment:
             // selectedPhotos.clear();
         }
@@ -371,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         if (!username || username.trim() === "") {
-            alert('無法獲取使用者名稱，請重新整理頁面再試。');
+            alert('Cannot get username, please refresh the page and try again.');
             return;
         }
 
@@ -385,21 +369,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    username: username, // Add username to the request
+                    username: username, 
                     selected_photos: Array.from(selectedPhotos) 
                 }),
             });
 
             if (response.ok) {
                 const result = await response.json();
-                voteStatus.innerHTML = `投票成功! ${result.message}`;
+                voteStatus.innerHTML = `Vote successful! ${result.message}`;
                 selectedPhotos.clear();
                 document.querySelectorAll('.photo-item.selected').forEach(el => el.classList.remove('selected'));
                 updateSelectionCount();
-                 // Optionally redirect or clear selection after a delay
                 setTimeout(() => { 
                     voteStatus.textContent = ''; 
-                    voteStatus.innerHTML = ''; // Clear innerHTML as well
+                    voteStatus.innerHTML = ''; 
                 }, 5000);
             } else {
                 const errorResult = await response.json();
@@ -410,15 +393,14 @@ document.addEventListener('DOMContentLoaded', () => {
             voteStatus.textContent = `Error: ${error.message}`;
         } finally {
             // Re-enable button only if there was an error and user might want to retry
-            // If successful, they should probably re-select or be navigated away
-            if (!voteStatus.textContent.startsWith('投票成功')) {
+            if (!voteStatus.textContent.startsWith('Vote successful')) {
                  submitVoteButton.disabled = selectedPhotos.size === 0;
             }
         }
     });
 
-    initializeLazyLoadObserver(); // Initialize the observer on page load
-    promptForUsername(); // Prompt for username when the page loads
+    initializeLazyLoadObserver(); 
+    promptForUsername(); 
     fetchPhotos();
-    setMode('vote'); // Initialize in vote mode
+    setMode('vote'); 
 });

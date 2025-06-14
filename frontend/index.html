@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>蘇俊升小老二</title>
-    <!-- CSS will be imported via JavaScript -->
 </head>
 <body>
     <div class="container">
@@ -22,7 +21,6 @@
         <h1>第二屆世紀末死亡暗黑攝影生死鬥</h1>
         <p id="selection-count">Selected: 0 / 25</p>
         <div id="photo-gallery">
-            <!-- Photos will be loaded here by JavaScript -->
             <p>Loading photos...</p>
         </div>
         <button id="submit-vote" disabled>送出投票</button>
@@ -37,9 +35,11 @@
         <div id="lightbox-caption"></div>
     </div>
 
-    <!-- This div is for the Vue app -->
     <div id="vue-app-placeholder"></div>
 
+    <script type="module" src="/src/app.js"></script>
+</body>
+</html>
     <script type="module" src="/src/app.js"></script>
 </body>
 </html>

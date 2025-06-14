@@ -29,15 +29,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px; /* Same gap as other-photos-container in photo_rankings */
+    gap: 15px; /* Same gap as other-photos-container in photo_rankings.css */
     width: 100%;
 }
 
-/* Re-use .photo-ranking-item and .other-rank-item styles from photo_rankings.css for consistency */
-/* Or define specific styles if needed */
 .user-photo-display-item {
     background-color: #f9f9f9;
-    border: 1px solid #ddd; /* Slightly different border than other-rank-item */
+    border: 1px solid #ddd; 
     border-radius: 8px;
     padding: 10px;
     text-align: center;
@@ -45,11 +43,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 150px; /* Consistent width */
+    width: 150px; 
 }
 
 .user-photo-display-item img {
-    width: 120px; /* Consistent image size */
+    width: 120px; 
     height: 120px;
     object-fit: cover;
     border-radius: 4px;

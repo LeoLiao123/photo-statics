@@ -37,12 +37,12 @@ nav {
 
 .mode-toggle-right {
     position: fixed;
-    top: 20px; /* Adjust as needed */
-    right: 20px; /* Adjust as needed */
+    top: 20px; 
+    right: 20px; 
     display: flex;
     flex-direction: column; /* Stack buttons vertically */
     gap: 5px; /* Space between buttons */
-    z-index: 100; /* Ensure it's above other content if necessary */
+    z-index: 100; 
 }
 
 .mode-toggle-right button {
@@ -98,7 +98,7 @@ nav {
 .photo-item.selected {
     border-color: #007bff;
     background-color: #e6f2ff;
-    border-width: 4px; /* 加粗框線 */
+    border-width: 4px; /* Thicker border */
 }
 
 body.browse-mode .photo-item {
@@ -151,16 +151,16 @@ body.browse-mode .photo-item {
 
 /* Lightbox Modal Styles */
 .lightbox-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    padding-top: 50px; /* Location of the box */
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    padding-top: 50px; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.9); 
 }
 
 .lightbox-content {
@@ -179,7 +179,7 @@ body.browse-mode .photo-item {
     text-align: center;
     color: #ccc;
     padding: 10px 0;
-    height: 50px; /* Reserve space for caption */
+    height: 50px; 
 }
 
 .lightbox-close {
@@ -207,7 +207,7 @@ body.browse-mode .photo-item {
     top: 50%;
     width: auto;
     padding: 16px;
-    margin-top: -50px; /* Adjust based on image height and padding */
+    margin-top: -50px; 
     color: white;
     font-weight: bold;
     font-size: 20px;
@@ -271,7 +271,6 @@ td img {
     min-width: 300px;
 }
 
-/* Admin Page Navigation Link */
 .admin-navigation {
     text-align: center;
     margin-bottom: 20px;
@@ -297,19 +296,19 @@ td img {
 #group-ranking-table {
     width: 100%;
     margin-top: 15px;
-    border-collapse: collapse; /* Ensures borders are neat */
+    border-collapse: collapse; 
 }
 
 #group-ranking-table th,
 #group-ranking-table td {
     border: 1px solid #ddd;
-    padding: 12px; /* Increased padding */
+    padding: 12px; 
     text-align: left;
 }
 
 #group-ranking-table th {
-    background-color: #007bff; /* Header background */
-    color: white; /* Header text color */
+    background-color: #007bff; 
+    color: white; 
     font-weight: bold;
 }
 
@@ -336,12 +335,12 @@ td img {
 /* Image Preview Popup Styles */
 #image-preview-popup {
     position: absolute;
-    z-index: 1001; /* Ensure it's above other elements like lightbox navigation */
+    z-index: 1001; 
     border: 2px solid #007bff;
     background-color: white;
     padding: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    pointer-events: none; /* Allows mouse events to pass through to elements below */
+    pointer-events: none; 
     border-radius: 4px;
 }
 

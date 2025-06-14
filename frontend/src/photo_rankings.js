@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         8: '八',
         9: '九',
         10: '十'
-        // 您可以根據需要擴展此對應
+        // You can expand this mapping as needed
     };
 
     async function fetchPhotoRankings() {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderPhotoRankings(rankings) {
         if (!photoRankingDisplay) return;
-        photoRankingDisplay.innerHTML = ''; // Clear existing content
+        photoRankingDisplay.innerHTML = ''; 
 
         if (rankings.length === 0) {
             photoRankingDisplay.innerHTML = `<p>No photo votes recorded yet.</p>`;
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const rankDisplay = document.createElement('div');
             rankDisplay.classList.add('rank');
-            rankDisplay.textContent = `排名: ${index + 1}`;
+            rankDisplay.textContent = `Rank: ${index + 1}`;
 
             const img = document.createElement('img');
             const photoPath = `/images/${photo.filename}.webp`;
@@ -65,12 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const votesDisplay = document.createElement('div');
             votesDisplay.classList.add('votes');
-            votesDisplay.textContent = `票數: ${photo.votes}`;
+            votesDisplay.textContent = `Votes: ${photo.votes}`;
             
-            const photographerName = groupNameMapping[photo.group_id] || `組別 ${photo.group_id}`;
+            const photographerName = groupNameMapping[photo.group_id] || `Group ${photo.group_id}`;
             const photographerDisplay = document.createElement('div');
             photographerDisplay.classList.add('photographer-name');
-            photographerDisplay.textContent = `拍攝者: ${photographerName}`;
+            photographerDisplay.textContent = `Photographer: ${photographerName}`;
 
             item.appendChild(rankDisplay);
             item.appendChild(img);
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showEnlargedPhotoPreview(event, photoPath, photographerName, votes) {
-        hideEnlargedPhotoPreview(); // Remove any existing preview
+        hideEnlargedPhotoPreview(); 
 
         enlargedPreviewPopup = document.createElement('div');
         enlargedPreviewPopup.id = 'enlarged-photo-preview-popup';
@@ -108,10 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
         detailsDiv.classList.add('preview-details');
         
         const nameP = document.createElement('p');
-        nameP.textContent = `拍攝者: ${photographerName}`;
+        nameP.textContent = `Photographer: ${photographerName}`;
         
         const votesP = document.createElement('p');
-        votesP.textContent = `票數: ${votes}`;
+        votesP.textContent = `Votes: ${votes}`;
         
         detailsDiv.appendChild(nameP);
         detailsDiv.appendChild(votesP);
@@ -136,14 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (x + popupWidth > viewportWidth + scrollX) {
             x = event.pageX - popupWidth - 20; // Show on the left
         }
-        if (x < scrollX) { // Ensure it doesn't go off the left edge
+        if (x < scrollX) { 
             x = scrollX + 5;
         }
 
         if (y + popupHeight > viewportHeight + scrollY) {
             y = event.pageY - popupHeight - 20; // Show above
         }
-        if (y < scrollY) { // Ensure it doesn't go off the top edge
+        if (y < scrollY) { 
             y = scrollY + 5;
         }
 
@@ -162,8 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchPhotoRankings();
     }
 
-    // Initial fetch
-    pollData();
-    // Set up polling
-    setInterval(pollData, POLLING_INTERVAL);
+    pollData(); // Initial fetch
+    setInterval(pollData, POLLING_INTERVAL); // Set up polling
 });

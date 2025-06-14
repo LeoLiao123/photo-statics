@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userSelect = document.getElementById('user-select');
     const userPhotoDisplay = document.getElementById('user-photo-display');
     const selectedUserHeading = document.getElementById('selected-user-heading');
-    let enlargedPreviewPopup = null; // Variable for the preview popup
+    let enlargedPreviewPopup = null;
 
     const groupNameMapping = { // Should be consistent with other JS files
         1: '阿財',
@@ -30,13 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
             populateUserDropdown(users);
         } catch (error) {
             console.error('Failed to fetch voted users:', error);
-            userSelect.innerHTML = '<option value="">無法載入使用者</option>';
+            userSelect.innerHTML = '<option value="">Unable to load users</option>';
         }
     }
 
     function populateUserDropdown(users) {
         if (users.length === 0) {
-            userSelect.innerHTML = '<option value="">尚無使用者投票</option>';
+            userSelect.innerHTML = '<option value="">No users have voted yet</option>';
             return;
         }
         users.forEach(user => {
@@ -49,18 +49,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchAndDisplayUserVotes(username) {
         if (!username) {
-            userPhotoDisplay.innerHTML = '<p>請先選擇一位使用者以查看其投票的照片。</p>';
+            userPhotoDisplay.innerHTML = '<p>Please select a user to view their voted photos.</p>';
             selectedUserHeading.textContent = '';
             return;
         }
-        selectedUserHeading.textContent = `${username} 的投票選擇：`;
-        userPhotoDisplay.innerHTML = '<p>載入中...</p>';
+        selectedUserHeading.textContent = `${username}'s voted choices:`;
+        userPhotoDisplay.innerHTML = '<p>Loading...</p>';
 
         try {
             const response = await fetch(`/api/users/${username}/votes`);
             if (!response.ok) {
                 if (response.status === 404) {
-                     userPhotoDisplay.innerHTML = `<p>找不到使用者 ${username} 的投票紀錄。</p>`;
+                     userPhotoDisplay.innerHTML = `<p>Could not find voting records for user ${username}.</p>`;
                 } else {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -70,14 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
             renderUserVotedPhotos(votedPhotos);
         } catch (error) {
             console.error(`Failed to fetch votes for ${username}:`, error);
-            userPhotoDisplay.innerHTML = `<p>載入 ${username} 的投票紀錄失敗。</p>`;
+            userPhotoDisplay.innerHTML = `<p>Failed to load voting records for ${username}.</p>`;
         }
     }
 
     function renderUserVotedPhotos(photos) {
         userPhotoDisplay.innerHTML = '';
         if (photos.length === 0) {
-            userPhotoDisplay.innerHTML = '<p>此使用者沒有投票紀錄，或選擇的照片已不存在。</p>';
+            userPhotoDisplay.innerHTML = '<p>This user has no voting records, or the selected photos no longer exist.</p>';
             return;
         }
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             img.src = photoPath; 
             img.alt = photo.photo_filename;
 
-            const photographerName = groupNameMapping[photo.group_id] || `組別 ${photo.group_id}`;
+            const photographerName = groupNameMapping[photo.group_id] || `Group ${photo.group_id}`;
             const photographerDisplay = document.createElement('div');
             photographerDisplay.classList.add('photographer-name-detail');
             photographerDisplay.textContent = `拍攝者: ${photographerName}`;
@@ -105,11 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add mouseenter and mouseleave listeners for image preview
             item.addEventListener('mouseenter', (event) => {
-                // For user votes, we don't have a separate 'votes' count per photo in this context,
-                // as we are showing what they selected, not the photo's total rank/votes.
-                // We can pass undefined or a relevant string if needed by showEnlargedPhotoPreview.
-                // For now, let's adapt showEnlargedPhotoPreview or pass minimal info.
-                showEnlargedPhotoPreview(event, photoPath, photographerName, `選擇時間: ${new Date(photo.timestamp).toLocaleString()}`);
+                // For user votes, we are showing what they selected, not the photo's total rank/votes.
+                showEnlargedPhotoPreview(event, photoPath, photographerName, `Selected at: ${new Date(photo.timestamp).toLocaleString()}`);
             });
             item.addEventListener('mouseleave', () => {
                 hideEnlargedPhotoPreview();
@@ -134,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         detailsDiv.classList.add('preview-details');
         
         const nameP = document.createElement('p');
-        nameP.textContent = `拍攝者: ${photographerName}`;
+        nameP.textContent = `Photographer: ${photographerName}`;
         
         const detailP = document.createElement('p'); // Changed from votesP
         detailP.textContent = detailText; // Display timestamp or other relevant detail
@@ -185,6 +182,5 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAndDisplayUserVotes(event.target.value);
     });
 
-    // Initial fetch
-    fetchVotedUsers();
+    fetchVotedUsers(); // Initial fetch
 });

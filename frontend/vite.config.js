@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [vue()],
-  root: resolve(__dirname), // frontend/ directory
+  root: resolve(__dirname), // frontend directory
   build: {
     rollupOptions: {
       input: {
