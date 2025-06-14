@@ -1,3 +1,7 @@
+// Import styles used by photo_rankings.html
+import './css/style.css';
+import './css/photo_rankings.css';
+
 document.addEventListener('DOMContentLoaded', () => {
     const photoRankingDisplay = document.getElementById('photo-ranking-display');
     const POLLING_INTERVAL = 5000; // 5 seconds
